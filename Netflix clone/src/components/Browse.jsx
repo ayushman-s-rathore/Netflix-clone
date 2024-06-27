@@ -21,10 +21,12 @@ const Browse = () => {
     usePopularMovies();
     useTopRatedMovies();
     useUpcomingMovies();
-
+    console.log(user.json)
     useEffect(() => {
         if (!user) {
             navigate("/");
+        }else{
+          navigate("/browse")
         }
     }, []);
     return (

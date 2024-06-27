@@ -16,6 +16,13 @@ export const Login=async(req,res)=>{
                 success: false
             })
         }
+        const regex=/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+        if(!email.match(regex)){
+            return res.status(401).json({
+                message: "Please write a valid Email Id",
+                success: false
+            })
+        }
         const user = await User.findOne({email})
         if(!user){
             return res.status(401).json({
@@ -49,11 +56,24 @@ export const Logout= async(req,res)=>{
 }
 export const Register= async (req,res)=>{
     try{
-        const {fullName,email, password}= req.body
+        const {fullName,email, password,cnfPassword}= req.body
         console.log(req.body)
-        if(!fullName || !email || !password){
+        if(!fullName || !email || !password || !cnfPassword){
             return res.status(401).json({
                 message: "Invalid Data",
+                success: false
+            })
+        }
+        if(password!==cnfPassword){
+            return res.status(401).json({
+                message: "Confirm password does not match with password",
+                success: false
+            })
+        }
+        const regex=/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/
+        if(!email.match(regex)){
+            return res.status(401).json({
+                message: "Please write a valid Email Id",
                 success: false
             })
         }

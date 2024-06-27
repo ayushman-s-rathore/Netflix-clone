@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from './Header'
 import net_bg from "../assets/netflix_background.jpg"
 import axios from "axios"
@@ -16,8 +16,9 @@ const Login = () => {
     const [cnfPassword, setCnfPassword]= useState("")
     const navigate= useNavigate()
     const dispatch= useDispatch()
+    const user= useSelector(store=>store.app.user);
     const isLoading = useSelector(store=>store.app.isLoading);
-
+    
     const loginHandle=()=>{
         setIsLogin(!isLogin)
     }
@@ -25,7 +26,7 @@ const Login = () => {
         e.preventDefault()
         dispatch(setLoading(true));
         if(isLogin){
-          const user={fullName,email,password}
+          const user={fullName,email,password,cnfPassword}
           try{
             const res= await axios.post("http://localhost:8080/api/v1/user/register",user,{
               headers:{
@@ -39,6 +40,7 @@ const Login = () => {
               toast.success(res.data.message)
             }
             setIsLogin(false)
+            
           }catch(error){
             console.log(error)
             toast.error(error.response.data.message)
@@ -55,11 +57,16 @@ const Login = () => {
             },
             withCredentials:true
             })
-            localStorage.setItem("user",res.data.user)
+            if(res.data.success){
+              toast.success(res.data.message)
+            }
+            localStorage.setItem("user",JSON.stringify(res.data.user))
             dispatch(setUser(res.data.user))
             navigate('/browse')
           }catch(error){
             console.log(error)
+            toast.error(error.response.data.message)
+
           }finally{
             dispatch(setLoading(false));
           }
@@ -95,7 +102,7 @@ const Login = () => {
             </>
 
             }
-            <button type='submit' className='bg-red-600 w-24 rounded-md p-2' >Submit</button>
+            <button type='submit' className='bg-red-600 w-24 rounded-md p-2' >{isLoading?"Loading...":"Submit"}</button>
             <p className='text-white'>{!isLogin ? "Want to create account?":"Already have an account?"}<span onClick={loginHandle} className='text-blue-900 cursor-pointer'>{isLogin? " Login":" SignUp"}</span></p>
         </div>
        </form>

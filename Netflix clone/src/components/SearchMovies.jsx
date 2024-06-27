@@ -38,7 +38,7 @@ const SearchMovies = () => {
         </div>
 
       {
-        searchedMovie ? <MovieList title={movieName} searchMovie={false} movies={searchedMovie}/>:<h1>No Such Movie found</h1>
+        searchedMovie ? <MovieList title={movieName} searchMovie={true} movies={searchedMovie}/>:<h1>No Such Movie found</h1>
       }
       </div>
     </>

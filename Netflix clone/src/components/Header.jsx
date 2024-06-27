@@ -19,10 +19,14 @@ const Header = () => {
   // console.log(user)
   const logoutHandler = async () => {
     try {
-        const res = await axios.get(`${API_END_POINT}/logout`);
+        const res = await axios.get(`${API_END_POINT}/logout`,{
+           withCredentials:true
+
+      });
         if(res.data.success){
             toast.success(res.data.message);
         }
+        localStorage.removeItem("user")
         dispatch(setUser(null));
         navigate("/");
     } catch (error) {
@@ -32,6 +36,7 @@ const Header = () => {
 const toggleHandler = () => {
   dispatch(setToggle());
 }
+console.log(user)
   return (
     <div className='absolute z-10 w-full flex flex-row bg-gradient-to-b from-black justify-between overflow-x-hidden'>
        <img src={netflix_logo} className='w-26 h-20'></img>
