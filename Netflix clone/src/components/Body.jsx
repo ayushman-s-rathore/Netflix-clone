@@ -15,7 +15,7 @@ const Body = () => {
        <Routes>
          <Route path='/' element={<Login/>}/>
          <Route path='/browse' element={<Browse/>}/>
-         <Route path='/movie/:movieID' element={<MovieInfo/>}/>
+         <Route path='/movie/:movieId' element={<MovieInfo/>}/>
        </Routes>
      </BrowserRouter>
     </>

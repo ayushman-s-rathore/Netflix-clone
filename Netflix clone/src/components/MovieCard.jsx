@@ -1,7 +1,7 @@
 import React from 'react'
 import { TMDB_IMG_URL } from '../utils/constant';
 import { useDispatch } from "react-redux";
-import { getId, setOpen } from '../redux/movieSlice';
+import { getId } from '../redux/movieSlice';
 import { useNavigate } from 'react-router-dom';
 
 const MovieCard = ({ posterPath,movieId}) => {
@@ -15,8 +15,8 @@ const MovieCard = ({ posterPath,movieId}) => {
   const handleOpen = () => {
     
     dispatch(getId(movieId));
-    dispatch(setOpen(false));
-    navigate(`/browse/${movieId}`)
+    
+    navigate(`/movie/${movieId}`)
   }
 
   return (

@@ -14,10 +14,16 @@ const Login = () => {
     const [password,setPassword]=useState("")
     const [fullName, setName]=useState("")
     const [cnfPassword, setCnfPassword]= useState("")
+    
     const navigate= useNavigate()
     const dispatch= useDispatch()
     const user= useSelector(store=>store.app.user);
     const isLoading = useSelector(store=>store.app.isLoading);
+    useEffect(()=>{
+      if(user){
+        navigate('/browse')
+      }
+    },[])
     
     const loginHandle=()=>{
         setIsLogin(!isLogin)
