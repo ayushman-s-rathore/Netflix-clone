@@ -1,8 +1,21 @@
 import React from 'react'
-import {useSelector} from 'react-redux'
+
 import  netflix_logo  from "../assets/netflix_logo.png"
+
+import {useSelector,useDispatch} from "react-redux" 
+import { API_END_POINT } from '../utils/constant';
+import axios from "axios";
+import { setUser } from '../redux/userSlice';
+import {useNavigate} from "react-router-dom";
+import toast from "react-hot-toast";
+import { setToggle } from '../redux/movieSlice';
+
 const Header = () => {
   const user= useSelector((store)=>store.app.user)
+  const toggle = useSelector(store=>store.movie.toggle);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
   // console.log(user)
   const logoutHandler = async () => {
     try {
@@ -16,6 +29,9 @@ const Header = () => {
         console.log(error);
     }
 }
+const toggleHandler = () => {
+  dispatch(setToggle());
+}
   return (
     <div className='absolute z-10 w-full flex flex-row bg-gradient-to-b from-black justify-between overflow-x-hidden'>
        <img src={netflix_logo} className='w-26 h-20'></img>
@@ -23,7 +39,7 @@ const Header = () => {
        <div className='flex flex-row gap-x-6 h-20 items-center'>
         <h1 className='text-white'>{user.fullName}</h1>
         <button className='mr-2 bg-red-600 px-4 py-2 rounded-md text-gray-50' onClick={logoutHandler}> Logout</button>
-        <button className='mr-6 bg-red-600 px-4 py-2 rounded-md text-gray-50'>Search</button>
+        <button onClick={toggleHandler} className='mr-6 bg-red-600 px-4 py-2 rounded-md text-gray-50'>{toggle ? "Home" : "Search Movie"}</button>
       
        </div>
 

@@ -5,7 +5,7 @@ import axios from "axios"
 import toast from 'react-hot-toast'
 import { API_END_POINT } from '../utils/constant'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch} from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux'
 import { setLoading, setUser } from '../redux/userSlice'
 
 const Login = () => {
@@ -32,8 +32,10 @@ const Login = () => {
                 'Content-Type':'application/json'
             },
             withCredentials:true
+      
             })
             if(res.data.success){
+              
               toast.success(res.data.message)
             }
             setIsLogin(false)
@@ -53,6 +55,7 @@ const Login = () => {
             },
             withCredentials:true
             })
+            localStorage.setItem("user",res.data.user)
             dispatch(setUser(res.data.user))
             navigate('/browse')
           }catch(error){
