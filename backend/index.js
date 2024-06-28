@@ -13,11 +13,8 @@ databaseConnection()
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
-const corsOption={
-    origin: 'https://netflix-clone-kappa-beryl.vercel.app/',
-    credentials: true
-}
-app.use(cors(corsOption))
+
+app.use(cors())
 // api
 
 app.use("/api/v1/user", userRoute)
