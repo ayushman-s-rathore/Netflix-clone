@@ -14,7 +14,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
 const corsOption={
-    origin: 'https://netflix-clone-kappa-beryl.vercel.app/',
+    origin: 'https://netflix-clone-kappa-beryl.vercel.app',
     credentials: true
 }
 
