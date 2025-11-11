@@ -3,8 +3,7 @@ import React from 'react'
 import  netflix_logo  from "../assets/netflix_logo.png"
 
 import {useSelector,useDispatch} from "react-redux" 
-import { API_END_POINT } from '../utils/constant';
-import axios from "axios";
+import axiosInstance from '../utils/axiosInstance';
 import { setUser } from '../redux/userSlice';
 import {useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
@@ -19,10 +18,7 @@ const Header = () => {
   // console.log(user)
   const logoutHandler = async () => {
     try {
-        const res = await axios.get(`${API_END_POINT}/logout`,{
-           withCredentials:true
-
-      });
+        const res = await axiosInstance.get("/logout");
         if(res.data.success){
             toast.success(res.data.message);
         }

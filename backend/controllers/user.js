@@ -38,7 +38,13 @@ export const Login=async(req,res)=>{
             })
         }
         const token= await jwt.sign({email},process.env.SECRET_KEY,{expiresIn: "1d"})
-        return res.status(200).cookie("token",token, {httpOnly: true }).json({
+        const isProduction = process.env.NODE_ENV === 'production'
+        return res.status(200).cookie("token",token, {
+            httpOnly: true,
+            sameSite: 'none', // Required for cross-origin requests (different ports = different origins)
+            secure: isProduction, // Browsers allow 'none' without 'secure' for localhost
+            maxAge: 24 * 60 * 60 * 1000 // 1 day
+        }).json({
             message: `Welcome back ${user.fullName}`,
             user,
             success: true
@@ -49,7 +55,13 @@ export const Login=async(req,res)=>{
     }
 }
 export const Logout= async(req,res)=>{
-    return res.status(200).cookie("token","", {expiresIn:new Date(Date.now()), httpOnly: true}).json({
+    const isProduction = process.env.NODE_ENV === 'production'
+    return res.status(200).cookie("token","", {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: isProduction,
+        expires: new Date(Date.now())
+    }).json({
         message: "User LogOut successfully",
         success: true
     })

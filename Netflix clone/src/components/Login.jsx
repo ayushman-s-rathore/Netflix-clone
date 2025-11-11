@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Header from './Header'
 import net_bg from "../assets/netflix_background.jpg"
-import axios from "axios"
+import axiosInstance from '../utils/axiosInstance'
 import toast from 'react-hot-toast'
-import { API_END_POINT } from '../utils/constant'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector} from 'react-redux'
 import { setLoading, setUser } from '../redux/userSlice'
@@ -34,13 +33,7 @@ const Login = () => {
         if(isLogin){
           const user={fullName,email,password,cnfPassword}
           try{
-            const res= await axios.post("http://localhost:8080/api/v1/user/register",user,{
-              headers:{
-                'Content-Type':'application/json'
-            },
-            withCredentials:true
-      
-            })
+            const res= await axiosInstance.post("/register",user)
             if(res.data.success){
               
               toast.success(res.data.message)
@@ -57,12 +50,7 @@ const Login = () => {
         }else{
           dispatch(setLoading(true))
           try{
-            const res= await axios.post(`${API_END_POINT}/login`,{email, password},{
-              headers:{
-                'Content-Type':'application/json'
-            },
-            withCredentials:true
-            })
+            const res= await axiosInstance.post("/login",{email, password})
             if(res.data.success){
               toast.success(res.data.message)
             }

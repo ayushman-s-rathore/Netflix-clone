@@ -9,16 +9,20 @@ dotenv.config({
     path: ".env"
 })
 const app= express()
+
+// CORS configuration
+app.use(cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:5173", // Your frontend URL
+    credentials: true, // Allow credentials (cookies, authorization headers)
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}))
+
 databaseConnection()
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 app.use(cookieParser())
-const corsOption={
-    origin: 'https://netflix-clone-kappa-beryl.vercel.app',
-    credentials: true
-}
 
-app.use(cors(corsOption))
 // api
 
 app.use("/api/v1/user", userRoute)
