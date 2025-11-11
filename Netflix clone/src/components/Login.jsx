@@ -73,15 +73,15 @@ const Login = () => {
     }
   return (
     <>
-    <div >
+    <div className='relative min-h-screen w-full overflow-hidden'>
        <Header/>
        
-        <div className='absolute'>
-       <img src={net_bg} className='w-full h-screen'></img>
+        <div className='fixed inset-0 -z-10'>
+       <img src={net_bg} className='w-full h-full object-cover'></img>
 
         </div>
        
-       <form onSubmit={getInputData} className='absolute flex flex-col left-0 right-0 w-3/12 p-12 my-36 bg-black mx-auto rounded-md opacity-90 justify-center items-center' >
+       <form onSubmit={getInputData} className='absolute flex flex-col left-0 right-0 w-3/12 p-12 my-36 bg-black mx-auto rounded-md opacity-90 justify-center items-center z-10' >
        <h1 className='text-white text-3xl'>{!isLogin?"Login":"SignUp"}</h1>
         <div className='flex flex-col gap-y-6 mt-4 items-center'>
             { isLogin && 
